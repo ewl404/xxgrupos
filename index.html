@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age Verification</title>
+  <meta name="description" content="Age verification required to access restricted content." />
+  <meta property="og:title" content="Age Verification" />
+  <meta property="og:description" content="Confirm your age to unlock access." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Card ── */
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .6),
+                  0 0 80px rgba(220, 38, 38, .06);
+      overflow: hidden;
+      animation: slideUp .6s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Progress bar ── */
+    .progress-track {
+      height: 5px;
+      width: 100%;
+      background: #262626;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 50%;
+      background: #dc2626;
+      border-radius: 0 4px 4px 0;
+      transition: width .5s ease-out;
+    }
+
+    /* ── Inner content ── */
+    .card-body {
+      padding: 32px;
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      .card-body {
+        padding: 40px;
+      }
+    }
+
+    /* ── Icon circle ── */
+    .icon-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, .1);
+      margin-bottom: 12px;
+      animation: pulse-glow 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .25); }
+      50%      { box-shadow: 0 0 24px 4px rgba(220, 38, 38, .15); }
+    }
+
+    .icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      color: #ef4444;
+    }
+
+    /* ── Typography ── */
+    .title {
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .title {
+        font-size: 1.85rem;
+      }
+    }
+
+    .subtitle {
+      color: #a3a3a3;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      margin-top: 12px;
+    }
+
+    /* ── Button ── */
+    .btn-confirm {
+      display: block;
+      width: 100%;
+      margin-top: 28px;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 12px;
+      background: #dc2626;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .25s;
+      box-shadow: 0 0 20px rgba(220, 38, 38, .3);
+    }
+
+    .btn-confirm:hover {
+      background: #b91c1c;
+      transform: scale(1.02);
+      box-shadow: 0 0 32px rgba(220, 38, 38, .45);
+    }
+
+    .btn-confirm:active {
+      transform: scale(.96);
+    }
+
+    /* ── Loader overlay while translating ── */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: opacity .4s;
+    }
+
+    .loader-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #262626;
+      border-top-color: #dc2626;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loader shown while we detect language -->
+  <div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="card">
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+
+    <div class="card-body">
+      <div class="icon-wrapper">
+        <!-- Lock icon (Lucide) -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+
+      <h1 class="title" id="title">Are you over 18?</h1>
+      <p class="subtitle" id="subtitle">Confirm your age to unlock access to restricted content.</p>
+
+      <button class="btn-confirm" id="btn" type="button">
+        YES, I AM OVER 18
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* ─────────────────────────────────────────────
+       Translation dictionary keyed by language code
+       ───────────────────────────────────────────── */
+    const translations = {
+      en: {
+        title: "Are you over 18?",
+        subtitle: "Confirm your age to unlock access to restricted content.",
+        button: "YES, I AM OVER 18"
+      },
+      pt: {
+        title: "Você é maior de 18 anos?",
+        subtitle: "Confirme sua idade para liberar o acesso ao conteúdo restrito.",
+        button: "SIM, SOU MAIOR DE 18 ANOS"
+      },
+      es: {
+        title: "¿Eres mayor de 18 años?",
+        subtitle: "Confirma tu edad para acceder al contenido restringido.",
+        button: "SÍ, SOY MAYOR DE 18 AÑOS"
+      },
+      fr: {
+        title: "Avez-vous plus de 18 ans ?",
+        subtitle: "Confirmez votre âge pour accéder au contenu restreint.",
+        button: "OUI, J'AI PLUS DE 18 ANS"
+      },
+      de: {
+        title: "Bist du über 18 Jahre alt?",
+        subtitle: "Bestätige dein Alter, um auf eingeschränkte Inhalte zuzugreifen.",
+        button: "JA, ICH BIN ÜBER 18"
+      },
+      it: {
+        title: "Hai più di 18 anni?",
+        subtitle: "Conferma la tua età per accedere ai contenuti riservati.",
+        button: "SÌ, HO PIÙ DI 18 ANNI"
+      },
+      ru: {
+        title: "Вам есть 18 лет?",
+        subtitle: "Подтвердите свой возраст для доступа к контенту с ограничениями.",
+        button: "ДА, МНЕ ЕСТЬ 18 ЛЕТ"
+      },
+      ja: {
+        title: "18歳以上ですか？",
+        subtitle: "制限されたコンテンツにアクセスするには年齢を確認してください。",
+        button: "はい、18歳以上です"
+      },
+      ko: {
+        title: "18세 이상이신가요?",
+        subtitle: "제한된 콘텐츠에 접근하려면 나이를 확인해 주세요.",
+        button: "네, 18세 이상입니다"
+      },
+      zh: {
+        title: "您年满18岁了吗？",
+        subtitle: "请确认您的年龄以访问受限内容。",
+        button: "是的，我已年满18岁"
+      },
+      ar: {
+        title: "هل عمرك أكثر من 18 عامًا؟",
+        subtitle: "قم بتأكيد عمرك للوصول إلى المحتوى المقيّد.",
+        button: "نعم، عمري أكثر من 18 عامًا"
+      },
+      hi: {
+        title: "क्या आपकी उम्र 18 साल से अधिक है?",
+        subtitle: "प्रतिबंधित सामग्री तक पहुँचने के लिए अपनी उम्र की पुष्टि करें।",
+        button: "हाँ, मेरी उम्र 18 से अधिक है"
+      },
+      tr: {
+        title: "18 yaşından büyük müsünüz?",
+        subtitle: "Kısıtlı içeriğe erişmek için yaşınızı onaylayın.",
+        button: "EVET, 18 YAŞINDAN BÜYÜĞÜM"
+      },
+      pl: {
+        title: "Czy masz ponad 18 lat?",
+        subtitle: "Potwierdź swój wiek, aby uzyskać dostęp do treści zastrzeżonych.",
+        button: "TAK, MAM PONAD 18 LAT"
+      },
+      nl: {
+        title: "Ben je ouder dan 18?",
+        subtitle: "Bevestig je leeftijd om toegang te krijgen tot beperkte content.",
+        button: "JA, IK BEN OUDER DAN 18"
+      },
+      th: {
+        title: "คุณอายุมากกว่า 18 ปีหรือไม่?",
+        subtitle: "ยืนยันอายุของคุณเพื่อเข้าถึงเนื้อหาที่จำกัด",
+        button: "ใช่ ฉันอายุมากกว่า 18 ปี"
+      },
+      vi: {
+        title: "Bạn đã trên 18 tuổi chưa?",
+        subtitle: "Xác nhận tuổi của bạn để truy cập nội dung hạn chế.",
+        button: "CÓ, TÔI TRÊN 18 TUỔI"
+      },
+      id: {
+        title: "Apakah Anda berusia di atas 18 tahun?",
+        subtitle: "Konfirmasi usia Anda untuk mengakses konten terbatas.",
+        button: "YA, SAYA DI ATAS 18 TAHUN"
+      },
+      uk: {
+        title: "Вам вже є 18 років?",
+        subtitle: "Підтвердіть свій вік для доступу до обмеженого вмісту.",
+        button: "ТАК, МЕНІ Є 18 РОКІВ"
+      },
+      cs: {
+        title: "Je vám více než 18 let?",
+        subtitle: "Potvrďte svůj věk pro přístup k omezenému obsahu.",
+        button: "ANO, JE MI VÍCE NEŽ 18 LET"
+      },
+      ro: {
+        title: "Ai peste 18 ani?",
+        subtitle: "Confirmă vârsta ta pentru a accesa conținutul restricționat.",
+        button: "DA, AM PESTE 18 ANI"
+      },
+      sv: {
+        title: "Är du över 18 år?",
+        subtitle: "Bekräfta din ålder för att få tillgång till begränsat innehåll.",
+        button: "JA, JAG ÄR ÖVER 18"
+      },
+      da: {
+        title: "Er du over 18 år?",
+        subtitle: "Bekræft din alder for at få adgang til begrænset indhold.",
+        button: "JA, JEG ER OVER 18"
+      },
+      fi: {
+        title: "Oletko yli 18-vuotias?",
+        subtitle: "Vahvista ikäsi päästäksesi rajoitettuun sisältöön.",
+        button: "KYLLÄ, OLEN YLI 18-VUOTIAS"
+      },
+      no: {
+        title: "Er du over 18 år?",
+        subtitle: "Bekreft alderen din for å få tilgang til begrenset innhold.",
+        button: "JA, JEG ER OVER 18"
+      },
+      hu: {
+        title: "Elmúltál 18 éves?",
+        subtitle: "Erősítsd meg az életkorodat a korlátozott tartalom eléréséhez.",
+        button: "IGEN, ELMÚLTAM 18 ÉVES"
+      },
+      el: {
+        title: "Είστε άνω των 18 ετών;",
+        subtitle: "Επιβεβαιώστε την ηλικία σας για πρόσβαση σε περιορισμένο περιεχόμενο.",
+        button: "ΝΑΙ, ΕΙΜΑΙ ΑΝΩ ΤΩΝ 18"
+      },
+      bg: {
+        title: "Навършили ли сте 18 години?",
+        subtitle: "Потвърдете възрастта си за достъп до ограничено съдържание.",
+        button: "ДА, НАД 18 ГОДИНИ СЪМ"
+      },
+      ms: {
+        title: "Adakah anda berumur lebih dari 18 tahun?",
+        subtitle: "Sahkan umur anda untuk mengakses kandungan terhad.",
+        button: "YA, SAYA BERUMUR LEBIH 18 TAHUN"
+      },
+      he: {
+        title: "?האם אתה מעל גיל 18",
+        subtitle: ".אשר את גילך כדי לגשת לתוכן מוגבל",
+        button: "כן, אני מעל גיל 18"
+      }
+    };
+
+    /* ─────────────────────────────────────────────
+       Country-code → language mapping
+       ───────────────────────────────────────────── */
+    const countryToLang = {
+      BR: "pt", PT: "pt", AO: "pt", MZ: "pt", CV: "pt",
+      ES: "es", MX: "es", AR: "es", CO: "es", CL: "es", PE: "es", VE: "es",
+      EC: "es", GT: "es", CU: "es", BO: "es", DO: "es", HN: "es", PY: "es",
+      SV: "es", NI: "es", CR: "es", PA: "es", UY: "es",
+      FR: "fr", BE: "fr", CH: "fr", CA: "fr", SN: "fr", CI: "fr", ML: "fr",
+      CM: "fr", MG: "fr", NE: "fr", BF: "fr", TD: "fr", GN: "fr", RW: "fr",
+      HT: "fr", TG: "fr", CG: "fr", CD: "fr", GA: "fr", DJ: "fr", KM: "fr",
+      DE: "de", AT: "de", LI: "de",
+      IT: "it", SM: "it", VA: "it",
+      RU: "ru", BY: "ru", KZ: "ru", KG: "ru",
+      JP: "ja",
+      KR: "ko",
+      CN: "zh", TW: "zh", HK: "zh", MO: "zh", SG: "zh",
+      SA: "ar", EG: "ar", IQ: "ar", MA: "ar", DZ: "ar", SD: "ar", YE: "ar",
+      SY: "ar", TN: "ar", JO: "ar", LY: "ar", LB: "ar", AE: "ar", OM: "ar",
+      KW: "ar", QA: "ar", BH: "ar", PS: "ar",
+      IN: "hi",
+      TR: "tr",
+      PL: "pl",
+      NL: "nl",
+      TH: "th",
+      VN: "vi",
+      ID: "id",
+      UA: "uk",
+      CZ: "cs",
+      RO: "ro",
+      SE: "sv",
+      DK: "da",
+      FI: "fi",
+      NO: "no",
+      HU: "hu",
+      GR: "el", CY: "el",
+      BG: "bg",
+      MY: "ms",
+      IL: "he"
+    };
+
+    /* ─────────────────────────────────────────────
+       Apply translations
+       ───────────────────────────────────────────── */
+    function applyTranslation(lang) {
+      const t = translations[lang] || translations.en;
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("btn").textContent = t.button;
+      document.documentElement.lang = lang;
+
+      /* RTL support for Arabic / Hebrew */
+      if (lang === "ar" || lang === "he") {
+        document.documentElement.dir = "rtl";
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       Detect language from IP via free geo API
+       ───────────────────────────────────────────── */
+    async function detectAndTranslate() {
+      const loader = document.getElementById("loader");
+
+      try {
+        /* Try multiple free IP geolocation services as fallbacks */
+        let countryCode = null;
+
+        try {
+          const res = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(4000) });
+          if (res.ok) {
+            const data = await res.json();
+            countryCode = data.country_code || data.country;
+          }
+        } catch (_) { /* fallback below */ }
+
+        if (!countryCode) {
+          try {
+            const res = await fetch("https://ip2c.org/s", { signal: AbortSignal.timeout(4000) });
+            if (res.ok) {
+              const text = await res.text();
+              const parts = text.split(";");
+              if (parts[0] === "1") countryCode = parts[1];
+            }
+          } catch (_) { /* use default */ }
+        }
+
+        if (countryCode) {
+          const lang = countryToLang[countryCode.toUpperCase()] || "en";
+          applyTranslation(lang);
+        }
+      } catch (_) {
+        /* Network error – stays English */
+      } finally {
+        loader.classList.add("hidden");
+        setTimeout(() => loader.remove(), 500);
+      }
+    }
+
+    detectAndTranslate();
+
+    /* ─────────────────────────────────────────────
+       Button click — redirect placeholder
+       ───────────────────────────────────────────── */
+    document.getElementById("btn").addEventListener("click", function () {
+      this.textContent = "✓";
+      this.style.pointerEvents = "none";
+
+      /* Animate progress bar to 100 % */
+      document.querySelector(".progress-fill").style.width = "100%";
+
+      /* After a brief moment, redirect (change URL as needed) */
+      setTimeout(() => {
+        window.location.href = "https://serverflow.dad/l/f3489a4c?shk=828ywsiw";
+      }, 600);
+    });
+  </script>
+</body>
+</html>
