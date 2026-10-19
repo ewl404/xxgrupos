@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Age Verification</title>
-  <meta name="description" content="Age verification required to access restricted content." />
-  <meta property="og:title" content="Age Verification" />
-  <meta property="og:description" content="Confirm your age to unlock access." />
+  <title>Confirme que não é um robô</title>
+  <meta name="description" content="Confirme que você não é um robô para acessar o conteúdo." />
+  <meta property="og:title" content="Confirme que não é um robô" />
+  <meta property="og:description" content="Confirme que você não é um robô para liberar o acesso." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
 
@@ -225,11 +225,11 @@
         </svg>
       </div>
 
-      <h1 class="title" id="title">Are you over 18?</h1>
-      <p class="subtitle" id="subtitle">Confirm your age to unlock access to restricted content.</p>
+      <h1 class="title" id="title">Confirme que não é um robô</h1>
+      <p class="subtitle" id="subtitle">Confirme que você não é um robô para liberar o acesso.</p>
 
       <button class="btn-confirm" id="btn" type="button">
-        YES, I AM OVER 18
+        NÃO SOU UM ROBÔ
       </button>
     </div>
   </div>
@@ -240,154 +240,154 @@
        ───────────────────────────────────────────── */
     const translations = {
       en: {
-        title: "Are you over 18?",
-        subtitle: "Confirm your age to unlock access to restricted content.",
-        button: "YES, I AM OVER 18"
+        title: "Confirm you are not a robot",
+        subtitle: "Confirm you are not a robot to unlock access.",
+        button: "I AM NOT A ROBOT"
       },
       pt: {
-        title: "Você é maior de 18 anos?",
-        subtitle: "Confirme sua idade para liberar o acesso ao conteúdo restrito.",
-        button: "SIM, SOU MAIOR DE 18 ANOS"
+        title: "Confirme que não é um robô",
+        subtitle: "Confirme que você não é um robô para liberar o acesso.",
+        button: "NÃO SOU UM ROBÔ"
       },
       es: {
-        title: "¿Eres mayor de 18 años?",
-        subtitle: "Confirma tu edad para acceder al contenido restringido.",
-        button: "SÍ, SOY MAYOR DE 18 AÑOS"
+        title: "Confirma que no eres un robot",
+        subtitle: "Confirma que no eres un robot para acceder al contenido.",
+        button: "NO SOY UN ROBOT"
       },
       fr: {
-        title: "Avez-vous plus de 18 ans ?",
-        subtitle: "Confirmez votre âge pour accéder au contenu restreint.",
-        button: "OUI, J'AI PLUS DE 18 ANS"
+        title: "Confirmez que vous n'êtes pas un robot",
+        subtitle: "Confirmez que vous n'êtes pas un robot pour accéder au contenu.",
+        button: "JE NE SUIS PAS UN ROBOT"
       },
       de: {
-        title: "Bist du über 18 Jahre alt?",
-        subtitle: "Bestätige dein Alter, um auf eingeschränkte Inhalte zuzugreifen.",
-        button: "JA, ICH BIN ÜBER 18"
+        title: "Bestätigen Sie, dass Sie kein Roboter sind",
+        subtitle: "Bestätigen Sie, dass Sie kein Roboter sind, um Zugang zu erhalten.",
+        button: "ICH BIN KEIN ROBOTER"
       },
       it: {
-        title: "Hai più di 18 anni?",
-        subtitle: "Conferma la tua età per accedere ai contenuti riservati.",
-        button: "SÌ, HO PIÙ DI 18 ANNI"
+        title: "Conferma che non sei un robot",
+        subtitle: "Conferma di non essere un robot per accedere al contenuto.",
+        button: "NON SONO UN ROBOT"
       },
       ru: {
-        title: "Вам есть 18 лет?",
-        subtitle: "Подтвердите свой возраст для доступа к контенту с ограничениями.",
-        button: "ДА, МНЕ ЕСТЬ 18 ЛЕТ"
+        title: "Подтвердите, что вы не робот",
+        subtitle: "Подтвердите, что вы не робот, чтобы получить доступ.",
+        button: "Я НЕ РОБОТ"
       },
       ja: {
-        title: "18歳以上ですか？",
-        subtitle: "制限されたコンテンツにアクセスするには年齢を確認してください。",
-        button: "はい、18歳以上です"
+        title: "ロボットではないことを確認してください",
+        subtitle: "アクセスするにはロボットではないことを確認してください。",
+        button: "私はロボットではありません"
       },
       ko: {
-        title: "18세 이상이신가요?",
-        subtitle: "제한된 콘텐츠에 접근하려면 나이를 확인해 주세요.",
-        button: "네, 18세 이상입니다"
+        title: "로봇이 아님을 확인해 주세요",
+        subtitle: "콘텐츠에 접근하려면 로봇이 아님을 확인해 주세요.",
+        button: "로봇이 아닙니다"
       },
       zh: {
-        title: "您年满18岁了吗？",
-        subtitle: "请确认您的年龄以访问受限内容。",
-        button: "是的，我已年满18岁"
+        title: "请确认您不是机器人",
+        subtitle: "请确认您不是机器人以访问内容。",
+        button: "我不是机器人"
       },
       ar: {
-        title: "هل عمرك أكثر من 18 عامًا؟",
-        subtitle: "قم بتأكيد عمرك للوصول إلى المحتوى المقيّد.",
-        button: "نعم، عمري أكثر من 18 عامًا"
+        title: "تأكيد أنك لست برنامج روبوت",
+        subtitle: "أكد أنك لست برنامج روبوت للوصول إلى المحتوى.",
+        button: "أنا لست برنامج روبوت"
       },
       hi: {
-        title: "क्या आपकी उम्र 18 साल से अधिक है?",
-        subtitle: "प्रतिबंधित सामग्री तक पहुँचने के लिए अपनी उम्र की पुष्टि करें।",
-        button: "हाँ, मेरी उम्र 18 से अधिक है"
+        title: "पुष्टि करें कि आप रोबोट नहीं हैं",
+        subtitle: "सामग्री तक पहुँचने के लिए पुष्टि करें कि आप रोबोट नहीं हैं।",
+        button: "मैं रोबोट नहीं हूँ"
       },
       tr: {
-        title: "18 yaşından büyük müsünüz?",
-        subtitle: "Kısıtlı içeriğe erişmek için yaşınızı onaylayın.",
-        button: "EVET, 18 YAŞINDAN BÜYÜĞÜM"
+        title: "Robot olmadığınızı onaylayın",
+        subtitle: "İçeriğe erişmek için robot olmadığınızı onaylayın.",
+        button: "BEN BİR ROBOT DEĞİLİM"
       },
       pl: {
-        title: "Czy masz ponad 18 lat?",
-        subtitle: "Potwierdź swój wiek, aby uzyskać dostęp do treści zastrzeżonych.",
-        button: "TAK, MAM PONAD 18 LAT"
+        title: "Potwierdź, że nie jesteś robotem",
+        subtitle: "Potwierdź, że nie jesteś robotem, aby uzyskać dostęp.",
+        button: "NIE JESTEM ROBOTEM"
       },
       nl: {
-        title: "Ben je ouder dan 18?",
-        subtitle: "Bevestig je leeftijd om toegang te krijgen tot beperkte content.",
-        button: "JA, IK BEN OUDER DAN 18"
+        title: "Bevestig dat je geen robot bent",
+        subtitle: "Bevestig dat je geen robot bent om toegang te krijgen.",
+        button: "IK BEN GEEN ROBOT"
       },
       th: {
-        title: "คุณอายุมากกว่า 18 ปีหรือไม่?",
-        subtitle: "ยืนยันอายุของคุณเพื่อเข้าถึงเนื้อหาที่จำกัด",
-        button: "ใช่ ฉันอายุมากกว่า 18 ปี"
+        title: "ยืนยันว่าคุณไม่ใช่บอท",
+        subtitle: "ยืนยันว่าคุณไม่ใช่บอทเพื่อเข้าถึงเนื้อหา",
+        button: "ฉันไม่ใช่บอท"
       },
       vi: {
-        title: "Bạn đã trên 18 tuổi chưa?",
-        subtitle: "Xác nhận tuổi của bạn để truy cập nội dung hạn chế.",
-        button: "CÓ, TÔI TRÊN 18 TUỔI"
+        title: "Xác nhận bạn không phải là người máy",
+        subtitle: "Xác nhận bạn không phải là người máy để truy cập nội dung.",
+        button: "TÔI KHÔNG PHẢI LÀ NGƯỜI MÁY"
       },
       id: {
-        title: "Apakah Anda berusia di atas 18 tahun?",
-        subtitle: "Konfirmasi usia Anda untuk mengakses konten terbatas.",
-        button: "YA, SAYA DI ATAS 18 TAHUN"
+        title: "Konfirmasi bahwa Anda bukan robot",
+        subtitle: "Konfirmasi bahwa Anda bukan robot untuk mengakses konten.",
+        button: "SAYA BUKAN ROBOT"
       },
       uk: {
-        title: "Вам вже є 18 років?",
-        subtitle: "Підтвердіть свій вік для доступу до обмеженого вмісту.",
-        button: "ТАК, МЕНІ Є 18 РОКІВ"
+        title: "Підтвердіть, що ви не робот",
+        subtitle: "Підтвердіть, що ви не робот, щоб отримати доступ.",
+        button: "Я НЕ РОБОТ"
       },
       cs: {
-        title: "Je vám více než 18 let?",
-        subtitle: "Potvrďte svůj věk pro přístup k omezenému obsahu.",
-        button: "ANO, JE MI VÍCE NEŽ 18 LET"
+        title: "Potvrďte, že nejste robot",
+        subtitle: "Potvrďte, že nejste robot, pro přístup k obsahu.",
+        button: "NEJSEM ROBOT"
       },
       ro: {
-        title: "Ai peste 18 ani?",
-        subtitle: "Confirmă vârsta ta pentru a accesa conținutul restricționat.",
-        button: "DA, AM PESTE 18 ANI"
+        title: "Confirmă că nu ești un robot",
+        subtitle: "Confirmă că nu ești un robot pentru a accesa conținutul.",
+        button: "NU SUNT UN ROBOT"
       },
       sv: {
-        title: "Är du över 18 år?",
-        subtitle: "Bekräfta din ålder för att få tillgång till begränsat innehåll.",
-        button: "JA, JAG ÄR ÖVER 18"
+        title: "Bekräfta att du inte är en robot",
+        subtitle: "Bekräfta att du inte är en robot för att få åtkomst.",
+        button: "JAG ÄR INTE EN ROBOT"
       },
       da: {
-        title: "Er du over 18 år?",
-        subtitle: "Bekræft din alder for at få adgang til begrænset indhold.",
-        button: "JA, JEG ER OVER 18"
+        title: "Bekræft, at du ikke er en robot",
+        subtitle: "Bekræft, at du ikke er en robot, for at få adgang.",
+        button: "JEG ER IKKE EN ROBOT"
       },
       fi: {
-        title: "Oletko yli 18-vuotias?",
-        subtitle: "Vahvista ikäsi päästäksesi rajoitettuun sisältöön.",
-        button: "KYLLÄ, OLEN YLI 18-VUOTIAS"
+        title: "Vahvista, ettet ole robotti",
+        subtitle: "Vahvista, ettet ole robotti päästäksesi sisältöön.",
+        button: "EN OLE ROBOTTI"
       },
       no: {
-        title: "Er du over 18 år?",
-        subtitle: "Bekreft alderen din for å få tilgang til begrenset innhold.",
-        button: "JA, JEG ER OVER 18"
+        title: "Bekreft at du ikke er en robot",
+        subtitle: "Bekreft at du ikke er en robot for å få tilgang.",
+        button: "JEG ER IKKE EN ROBOT"
       },
       hu: {
-        title: "Elmúltál 18 éves?",
-        subtitle: "Erősítsd meg az életkorodat a korlátozott tartalom eléréséhez.",
-        button: "IGEN, ELMÚLTAM 18 ÉVES"
+        title: "Erősítsd meg, hogy nem vagy robot",
+        subtitle: "Erősítsd meg, hogy nem vagy robot a tartalom eléréséhez.",
+        button: "NEM VAGYOK ROBOT"
       },
       el: {
-        title: "Είστε άνω των 18 ετών;",
-        subtitle: "Επιβεβαιώστε την ηλικία σας για πρόσβαση σε περιορισμένο περιεχόμενο.",
-        button: "ΝΑΙ, ΕΙΜΑΙ ΑΝΩ ΤΩΝ 18"
+        title: "Επιβεβαιώστε ότι δεν είστε ρομπότ",
+        subtitle: "Επιβεβαιώστε ότι δεν είστε ρομπότ για πρόσβαση στο περιεχόμενο.",
+        button: "ΔΕΝ ΕΙΜΑΙ ΡΟΜΠΟΤ"
       },
       bg: {
-        title: "Навършили ли сте 18 години?",
-        subtitle: "Потвърдете възрастта си за достъп до ограничено съдържание.",
-        button: "ДА, НАД 18 ГОДИНИ СЪМ"
+        title: "Потвърдете, че не сте робот",
+        subtitle: "Потвърдете, че не сте робот, за да получите достъп.",
+        button: "НЕ СЪМ РОБОТ"
       },
       ms: {
-        title: "Adakah anda berumur lebih dari 18 tahun?",
-        subtitle: "Sahkan umur anda untuk mengakses kandungan terhad.",
-        button: "YA, SAYA BERUMUR LEBIH 18 TAHUN"
+        title: "Sahkan anda bukan robot",
+        subtitle: "Sahkan anda bukan robot untuk mengakses kandungan.",
+        button: "SAYA BUKAN ROBOT"
       },
       he: {
-        title: "?האם אתה מעל גיל 18",
-        subtitle: ".אשר את גילך כדי לגשת לתוכן מוגבל",
-        button: "כן, אני מעל גיל 18"
+        title: "?האם אינך רובוט",
+        subtitle: ".אשר שאינך רובוט כדי לגשת לתוכן",
+        button: "אני לא רובוט"
       }
     };
 
@@ -436,7 +436,8 @@
        Apply translations
        ───────────────────────────────────────────── */
     function applyTranslation(lang) {
-      const t = translations[lang] || translations.en;
+      const t = translations[lang] || translations.pt;
+      document.title = t.title;
       document.getElementById("title").textContent = t.title;
       document.getElementById("subtitle").textContent = t.subtitle;
       document.getElementById("btn").textContent = t.button;
