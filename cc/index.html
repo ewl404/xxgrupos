@@ -28,8 +28,10 @@
          src="https://www.facebook.com/tr?id=2563802257426391&ev=PageView&noscript=1"/>
   </noscript>
   <!-- End Meta Pixel Code -->
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -70,9 +72,10 @@
 
     /* ── Progress bar ── */
     .progress-track {
-      height: 5px;
+      height: 6px;
       width: 100%;
       background: #262626;
+      position: relative;
     }
 
     .progress-fill {
@@ -80,18 +83,23 @@
       width: 50%;
       background: #dc2626;
       border-radius: 0 4px 4px 0;
-      transition: width .5s ease-out;
+      transition: width .6s cubic-bezier(.34, 1.3, .64, 1), background-color .4s ease;
+    }
+
+    .progress-fill.completed {
+      width: 100%;
+      background: #16a34a;
     }
 
     /* ── Inner content ── */
     .card-body {
-      padding: 32px;
+      padding: 36px 24px;
       text-align: center;
     }
 
     @media (min-width: 640px) {
       .card-body {
-        padding: 40px;
+        padding: 42px 32px;
       }
     }
 
@@ -100,32 +108,49 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 72px;
-      height: 72px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
-      background: rgba(220, 38, 38, .1);
+      background: rgba(220, 38, 38, .12);
       margin-bottom: 12px;
       animation: pulse-glow 2.4s ease-in-out infinite;
+      transition: all .5s cubic-bezier(.34, 1.2, .64, 1);
     }
 
     @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .25); }
-      50%      { box-shadow: 0 0 24px 4px rgba(220, 38, 38, .15); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .28); }
+      50%      { box-shadow: 0 0 26px 4px rgba(220, 38, 38, .18); }
+    }
+
+    @keyframes pulse-glow-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, .32); }
+      50%      { box-shadow: 0 0 28px 6px rgba(34, 197, 94, .24); }
+    }
+
+    .icon-wrapper.verified {
+      background: rgba(22, 163, 74, .16);
+      animation: pulse-glow-green 2s ease-in-out infinite;
     }
 
     .icon-wrapper svg {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       color: #ef4444;
+      transition: all .4s ease;
+    }
+
+    .icon-wrapper.verified svg {
+      color: #22c55e;
     }
 
     /* ── Typography ── */
     .title {
       font-size: 1.55rem;
       font-weight: 900;
-      line-height: 1.2;
+      line-height: 1.25;
       letter-spacing: -.02em;
-      margin-top: 20px;
+      margin-top: 16px;
+      transition: opacity .3s, transform .3s;
     }
 
     @media (min-width: 640px) {
@@ -136,39 +161,122 @@
 
     .subtitle {
       color: #a3a3a3;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       line-height: 1.55;
       margin-top: 12px;
+      transition: opacity .3s, transform .3s;
     }
 
-    /* ── Button ── */
-    .btn-confirm {
-      display: block;
+    /* ── Buttons ── */
+    .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       width: 100%;
-      margin-top: 28px;
+      margin-top: 24px;
       padding: 16px 24px;
       border: none;
       border-radius: 12px;
-      background: #dc2626;
-      color: #fff;
       font-family: inherit;
       font-size: 1.05rem;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: .06em;
       cursor: pointer;
-      transition: background .2s, transform .15s, box-shadow .25s;
-      box-shadow: 0 0 20px rgba(220, 38, 38, .3);
+      transition: all .25s ease;
     }
 
-    .btn-confirm:hover {
+    /* Red Primary Button (Step 1) */
+    .btn-red {
+      background: #dc2626;
+      color: #fff;
+      box-shadow: 0 0 22px rgba(220, 38, 38, .35);
+      animation: pulse-button-red 2.2s infinite;
+    }
+
+    @keyframes pulse-button-red {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(220, 38, 38, .35);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 32px rgba(220, 38, 38, .55);
+        transform: scale(1.015);
+      }
+    }
+
+    .btn-red:hover {
       background: #b91c1c;
-      transform: scale(1.02);
-      box-shadow: 0 0 32px rgba(220, 38, 38, .45);
+      transform: scale(1.025);
+      box-shadow: 0 0 36px rgba(220, 38, 38, .6);
     }
 
-    .btn-confirm:active {
-      transform: scale(.96);
+    .btn-red:active {
+      transform: scale(.97);
+    }
+
+    /* Green Action Button (Step 2) */
+    .btn-green {
+      background: #16a34a;
+      color: #ffffff;
+      box-shadow: 0 0 24px rgba(22, 163, 74, .45);
+      animation: pulse-button-green 2.2s infinite;
+    }
+
+    @keyframes pulse-button-green {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(22, 163, 74, .38);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 34px rgba(34, 197, 94, .6);
+        transform: scale(1.02);
+      }
+    }
+
+    .btn-green:hover {
+      background: #15803d;
+      transform: scale(1.025);
+      box-shadow: 0 0 36px rgba(34, 197, 94, .65);
+    }
+
+    .btn-green:active {
+      transform: scale(.97);
+    }
+
+    /* Step 2 Section */
+    .step2-wrapper {
+      margin-top: 16px;
+      animation: fadeInStep2 .45s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes fadeInStep2 {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      background: rgba(22, 163, 74, 0.16);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      border-radius: 10px;
+      color: #4ade80;
+      font-size: 0.98rem;
+      font-weight: 700;
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+      margin-bottom: 6px;
     }
 
     /* ── Loader overlay while translating ── */
@@ -211,195 +319,335 @@
 
   <div class="card">
     <div class="progress-track">
-      <div class="progress-fill"></div>
+      <div class="progress-fill" id="progress-fill"></div>
     </div>
 
     <div class="card-body">
-      <div class="icon-wrapper">
-        <!-- Lock icon (Lucide) -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+      <div class="icon-wrapper" id="icon-wrapper">
+        <!-- Lock icon (Initial) -->
+        <svg id="icon-lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
              aria-hidden="true">
           <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+
+        <!-- Checkmark icon (Success) -->
+        <svg id="icon-check" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M20 6L9 17l-5-5"></path>
         </svg>
       </div>
 
       <h1 class="title" id="title">Confirme que não é um robô</h1>
       <p class="subtitle" id="subtitle">Confirme que você não é um robô para liberar o acesso.</p>
 
-      <button class="btn-confirm" id="btn" type="button">
-        NÃO SOU UM ROBÔ
+      <!-- Step 1 Button (Red) -->
+      <button class="btn-action btn-red" id="btn-step1" type="button">
+        <span id="btn-step1-text">NÃO SOU UM ROBÔ</span>
       </button>
+
+      <!-- Step 2 Container (Shown after Step 1 click) -->
+      <div id="step2-container" class="step2-wrapper" style="display: none;">
+        <div class="verified-badge" id="verified-badge">
+          ✓ Acesso liberado com sucesso
+        </div>
+        
+        <!-- Step 2 Button (Green) -->
+        <button class="btn-action btn-green" id="btn-step2" type="button">
+          <span id="btn-step2-text">ACESSAR CONTEÚDO</span>
+        </button>
+      </div>
+
     </div>
   </div>
 
   <script>
     /* ─────────────────────────────────────────────
-       Translation dictionary keyed by language code
+       Translation dictionary for 30 languages
        ───────────────────────────────────────────── */
     const translations = {
       en: {
-        title: "Confirm you are not a robot",
-        subtitle: "Confirm you are not a robot to unlock access.",
-        button: "I AM NOT A ROBOT"
+        title1: "Confirm you are not a robot",
+        subtitle1: "Confirm you are not a robot to unlock access.",
+        btn1: "I AM NOT A ROBOT",
+        verified: "✓ Access successfully granted",
+        title2: "Access Granted!",
+        subtitle2: "Confirmed you are not a robot! Tap the button below to access the content.",
+        btn2: "ACCESS CONTENT"
       },
       pt: {
-        title: "Confirme que não é um robô",
-        subtitle: "Confirme que você não é um robô para liberar o acesso.",
-        button: "NÃO SOU UM ROBÔ"
+        title1: "Confirme que não é um robô",
+        subtitle1: "Confirme que você não é um robô para liberar o acesso.",
+        btn1: "NÃO SOU UM ROBÔ",
+        verified: "✓ Acesso liberado com sucesso",
+        title2: "Acesso Liberado!",
+        subtitle2: "Confirmado que você não é um robô! Toque no botão abaixo para acessar o conteúdo.",
+        btn2: "ACESSAR CONTEÚDO"
       },
       es: {
-        title: "Confirma que no eres un robot",
-        subtitle: "Confirma que no eres un robot para acceder al contenido.",
-        button: "NO SOY UN ROBOT"
+        title1: "Confirma que no eres un robot",
+        subtitle1: "Confirma que no eres un robot para acceder al contenido.",
+        btn1: "NO SOY UN ROBOT",
+        verified: "✓ Acceso liberado con éxito",
+        title2: "¡Acceso Concedido!",
+        subtitle2: "¡Confirmado que no eres un robot! Toca el botón abajo para acceder al contenido.",
+        btn2: "ACCEDER AL CONTENIDO"
       },
       fr: {
-        title: "Confirmez que vous n'êtes pas un robot",
-        subtitle: "Confirmez que vous n'êtes pas un robot pour accéder au contenu.",
-        button: "JE NE SUIS PAS UN ROBOT"
+        title1: "Confirmez que vous n'êtes pas un robot",
+        subtitle1: "Confirmez que vous n'êtes pas un robot pour accéder au contenu.",
+        btn1: "JE NE SUIS PAS UN ROBOT",
+        verified: "✓ Accès débloqué avec succès",
+        title2: "Accès Débloqué !",
+        subtitle2: "Confirmé que vous n'êtes pas un robot ! Appuyez sur le bouton ci-dessous pour accéder.",
+        btn2: "ACCÉDER AU CONTENU"
       },
       de: {
-        title: "Bestätigen Sie, dass Sie kein Roboter sind",
-        subtitle: "Bestätigen Sie, dass Sie kein Roboter sind, um Zugang zu erhalten.",
-        button: "ICH BIN KEIN ROBOTER"
+        title1: "Bestätigen Sie, dass Sie kein Roboter sind",
+        subtitle1: "Bestätigen Sie, dass Sie kein Roboter sind, um Zugang zu erhalten.",
+        btn1: "ICH BIN KEIN ROBOTER",
+        verified: "✓ Zugang erfolgreich freigeschaltet",
+        title2: "Zugang Freigeschaltet!",
+        subtitle2: "Bestätigt, dass Sie kein Roboter sind! Tippen Sie unten, um auf den Inhalt zuzugreifen.",
+        btn2: "ZUGANG STARTEN"
       },
       it: {
-        title: "Conferma che non sei un robot",
-        subtitle: "Conferma di non essere un robot per accedere al contenuto.",
-        button: "NON SONO UN ROBOT"
+        title1: "Conferma che non sei un robot",
+        subtitle1: "Conferma di non essere un robot per accedere al contenuto.",
+        btn1: "NON SONO UN ROBOT",
+        verified: "✓ Accesso sbloccato con successo",
+        title2: "Accesso Consentito!",
+        subtitle2: "Confermato che non sei un robot! Tocca il pulsante sotto per accedere al contenuto.",
+        btn2: "ACCEDI AL CONTENUTO"
       },
       ru: {
-        title: "Подтвердите, что вы не робот",
-        subtitle: "Подтвердите, что вы не робот, чтобы получить доступ.",
-        button: "Я НЕ РОБОТ"
+        title1: "Подтвердите, что вы не робот",
+        subtitle1: "Подтвердите, что вы не робот, чтобы получить доступ.",
+        btn1: "Я НЕ РОБОТ",
+        verified: "✓ Доступ успешно открыт",
+        title2: "Доступ Открыт!",
+        subtitle2: "Подтверждено, что вы не робот! Нажмите кнопку ниже для перехода к контенту.",
+        btn2: "ПОЛУЧИТЬ ДОСТУП"
       },
       ja: {
-        title: "ロボットではないことを確認してください",
-        subtitle: "アクセスするにはロボットではないことを確認してください。",
-        button: "私はロボットではありません"
+        title1: "ロボットではないことを確認してください",
+        subtitle1: "アクセスするにはロボットではないことを確認してください。",
+        btn1: "私はロボットではありません",
+        verified: "✓ アクセスが解除されました",
+        title2: "アクセスが許可されました！",
+        subtitle2: "ロボットではないことが確認されました！下のボタンを押してコンテンツへ進んでください。",
+        btn2: "コンテンツにアクセス"
       },
       ko: {
-        title: "로봇이 아님을 확인해 주세요",
-        subtitle: "콘텐츠에 접근하려면 로봇이 아님을 확인해 주세요.",
-        button: "로봇이 아닙니다"
+        title1: "로봇이 아님을 확인해 주세요",
+        subtitle1: "콘텐츠에 접근하려면 로봇이 아님을 확인해 주세요.",
+        btn1: "로봇이 아닙니다",
+        verified: "✓ 접근이 승인되었습니다",
+        title2: "접근이 승인되었습니다!",
+        subtitle2: "로봇이 아님이 확인되었습니다! 콘텐츠를 보려면 아래 버튼을 누르세요.",
+        btn2: "콘텐츠 이용하기"
       },
       zh: {
-        title: "请确认您不是机器人",
-        subtitle: "请确认您不是机器人以访问内容。",
-        button: "我不是机器人"
+        title1: "请确认您不是机器人",
+        subtitle1: "请确认您不是机器人以访问内容。",
+        btn1: "我不是机器人",
+        verified: "✓ 访问权限已成功解锁",
+        title2: "访问已解锁！",
+        subtitle2: "已确认您不是机器人！点击下方按钮即可进入并访问内容。",
+        btn2: "访问内容"
       },
       ar: {
-        title: "تأكيد أنك لست برنامج روبوت",
-        subtitle: "أكد أنك لست برنامج روبوت للوصول إلى المحتوى.",
-        button: "أنا لست برنامج روبوت"
+        title1: "تأكيد أنك لست برنامج روبوت",
+        subtitle1: "أكد أنك لست برنامج روبوت للوصول إلى المحتوى.",
+        btn1: "أنا لست برنامج روبوت",
+        verified: "✓ تم فتح الوصول بنجاح",
+        title2: "تم منح حق الوصول!",
+        subtitle2: "تم التأكد أنك لست روبوت! اضغط على الزر أدناه للدخول إلى المحتوى الآن.",
+        btn2: "الدخول إلى المحتوى"
       },
       hi: {
-        title: "पुष्टि करें कि आप रोबोट नहीं हैं",
-        subtitle: "सामग्री तक पहुँचने के लिए पुष्टि करें कि आप रोबोट नहीं हैं।",
-        button: "मैं रोबोट नहीं हूँ"
+        title1: "पुष्टि करें कि आप रोbोट नहीं हैं",
+        subtitle1: "सामग्री तक पहुँचने के लिए पुष्टि करें कि आप रोbोट नहीं हैं।",
+        btn1: "मैं रोबोट नहीं हूँ",
+        verified: "✓ पहुँच सफलतापूर्वक स्वीकृत",
+        title2: "पहुँच स्वीकृत!",
+        subtitle2: "पुष्टि हो गई कि आप रोबोट नहीं हैं! सामग्री देखने के लिए नीचे दिए गए बटन पर टैप करें।",
+        btn2: "सामग्री देखें"
       },
       tr: {
-        title: "Robot olmadığınızı onaylayın",
-        subtitle: "İçeriğe erişmek için robot olmadığınızı onaylayın.",
-        button: "BEN BİR ROBOT DEĞİLİM"
+        title1: "Robot olmadığınızı onaylayın",
+        subtitle1: "İçeriğe erişmek için robot olmadığınızı onaylayın.",
+        btn1: "BEN BİR ROBOT DEĞİLİM",
+        verified: "✓ Erişim başarıyla açıldı",
+        title2: "Erişim Açıldı!",
+        subtitle2: "Robot olmadığınız onaylandı! İçeriğe erişmek için aşağıdaki butona tıklayın.",
+        btn2: "İÇERİĞE ERİŞ"
       },
       pl: {
-        title: "Potwierdź, że nie jesteś robotem",
-        subtitle: "Potwierdź, że nie jesteś robotem, aby uzyskać dostęp.",
-        button: "NIE JESTEM ROBOTEM"
+        title1: "Potwierdź, że nie jesteś robotem",
+        subtitle1: "Potwierdź, że nie jesteś robotem, aby uzyskać dostęp.",
+        btn1: "NIE JESTEM ROBOTEM",
+        verified: "✓ Dostęp został pomyślnie odblokowany",
+        title2: "Dostęp Przyznany!",
+        subtitle2: "Potwierdzono, że nie jesteś robotem! Kliknij poniższy przycisk, aby przejść do treści.",
+        btn2: "PRZEJDŹ DO TREŚCI"
       },
       nl: {
-        title: "Bevestig dat je geen robot bent",
-        subtitle: "Bevestig dat je geen robot bent om toegang te krijgen.",
-        button: "IK BEN GEEN ROBOT"
+        title1: "Bevestig dat je geen robot bent",
+        subtitle1: "Bevestig dat je geen robot bent om toegang te krijgen.",
+        btn1: "IK BEN GEEN ROBOT",
+        verified: "✓ Toegang succesvol vrijgegeven",
+        title2: "Toegang Vrijgegeven!",
+        subtitle2: "Bevestigd dat je geen robot bent! Tik op de onderstaande knop om naar de inhoud te gaan.",
+        btn2: "BEKIJK INHOUD"
       },
       th: {
-        title: "ยืนยันว่าคุณไม่ใช่บอท",
-        subtitle: "ยืนยันว่าคุณไม่ใช่บอทเพื่อเข้าถึงเนื้อหา",
-        button: "ฉันไม่ใช่บอท"
+        title1: "ยืนยันว่าคุณไม่ใช่บอท",
+        subtitle1: "ยืนยันว่าคุณไม่ใช่บอทเพื่อเข้าถึงเนื้อหา",
+        btn1: "ฉันไม่ใช่บอท",
+        verified: "✓ ปลดล็อกการเข้าถึงเรียบร้อยแล้ว",
+        title2: "ปลดล็อกการเข้าถึงแล้ว!",
+        subtitle2: "ยืนยันว่าคุณไม่ใช่บอทแล้ว! แตะปุ่มด้านล่างเพื่อเข้าสู่เนื้อหา",
+        btn2: "เข้าสู่เนื้อหา"
       },
       vi: {
-        title: "Xác nhận bạn không phải là người máy",
-        subtitle: "Xác nhận bạn không phải là người máy để truy cập nội dung.",
-        button: "TÔI KHÔNG PHẢI LÀ NGƯỜI MÁY"
+        title1: "Xác nhận bạn không phải là người máy",
+        subtitle1: "Xác nhận bạn không phải là người máy để truy cập nội dung.",
+        btn1: "TÔI KHÔNG PHẢI LÀ NGƯỜI MÁY",
+        verified: "✓ Quyền truy cập đã được mở khóa",
+        title2: "Truy Cập Đã Mở Khóa!",
+        subtitle2: "Đã xác nhận bạn không phải người máy! Chạm vào nút bên dưới để truy cập nội dung.",
+        btn2: "TRUY CẬP NỘI DUNG"
       },
       id: {
-        title: "Konfirmasi bahwa Anda bukan robot",
-        subtitle: "Konfirmasi bahwa Anda bukan robot untuk mengakses konten.",
-        button: "SAYA BUKAN ROBOT"
+        title1: "Konfirmasi bahwa Anda bukan robot",
+        subtitle1: "Konfirmasi bahwa Anda bukan robot untuk mengakses konten.",
+        btn1: "SAYA BUKAN ROBOT",
+        verified: "✓ Akses berhasil dibuka",
+        title2: "Akses Dibuka!",
+        subtitle2: "Dikonfirmasi bahwa Anda bukan robot! Ketuk tombol di bawah untuk mengakses konten.",
+        btn2: "AKSES KONTEN"
       },
       uk: {
-        title: "Підтвердіть, що ви не робот",
-        subtitle: "Підтвердіть, що ви не робот, щоб отримати доступ.",
-        button: "Я НЕ РОБОТ"
+        title1: "Підтвердіть, що ви не робот",
+        subtitle1: "Підтвердіть, що ви не робот, щоб отримати доступ.",
+        btn1: "Я НЕ РОБОТ",
+        verified: "✓ Доступ успішно відкрито",
+        title2: "Доступ Відкрито!",
+        subtitle2: "Підтверджено, що ви не робот! Натисніть кнопку нижче, щоб отримати доступ.",
+        btn2: "ОТРИМАТИ ДОСТУП"
       },
       cs: {
-        title: "Potvrďte, že nejste robot",
-        subtitle: "Potvrďte, že nejste robot, pro přístup k obsahu.",
-        button: "NEJSEM ROBOT"
+        title1: "Potvrďte, že nejste robot",
+        subtitle1: "Potvrďte, že nejste robot, pro přístup k obsahu.",
+        btn1: "NEJSEM ROBOT",
+        verified: "✓ Přístup byl úspěšně povolen",
+        title2: "Přístup Povolen!",
+        subtitle2: "Potvrzeno, že nejste robot! Klepnutím na tlačítko níže získáte přístup k obsahu.",
+        btn2: "VSTOUPIT DO OBSAHU"
       },
       ro: {
-        title: "Confirmă că nu ești un robot",
-        subtitle: "Confirmă că nu ești un robot pentru a accesa conținutul.",
-        button: "NU SUNT UN ROBOT"
+        title1: "Confirmă că nu ești un robot",
+        subtitle1: "Confirmă că nu ești un robot pentru a accesa conținutul.",
+        btn1: "NU SUNT UN ROBOT",
+        verified: "✓ Acces deblocat cu succes",
+        title2: "Acces Deblocat!",
+        subtitle2: "S-a confirmat că nu ești un robot! Apasă pe butonul de mai jos pentru a accesa conținutul.",
+        btn2: "ACCESEAZĂ CONȚINUTUL"
       },
       sv: {
-        title: "Bekräfta att du inte är en robot",
-        subtitle: "Bekräfta att du inte är en robot för att få åtkomst.",
-        button: "JAG ÄR INTE EN ROBOT"
+        title1: "Bekräfta att du inte är en robot",
+        subtitle1: "Bekräfta att du inte är en robot för att få åtkomst.",
+        btn1: "JAG ÄR INTE EN ROBOT",
+        verified: "✓ Åtkomst har beviljats",
+        title2: "Åtkomst Beviljad!",
+        subtitle2: "Bekräftat att du inte är en robot! Tryck på knappen nedan för att komma åt innehållet.",
+        btn2: "ÖPPNA INNEHÅLL"
       },
       da: {
-        title: "Bekræft, at du ikke er en robot",
-        subtitle: "Bekræft, at du ikke er en robot, for at få adgang.",
-        button: "JEG ER IKKE EN ROBOT"
+        title1: "Bekræft, at du ikke er en robot",
+        subtitle1: "Bekræft, at du ikke er en robot, for at få adgang.",
+        btn1: "JEG ER IKKE EN ROBOT",
+        verified: "✓ Adgang låst op med succes",
+        title2: "Adgang Låst Op!",
+        subtitle2: "Bekræftet, at du ikke er en robot! Tryk på knappen nedenfor for at få adgang til indholdet.",
+        btn2: "FÅ ADGANG"
       },
       fi: {
-        title: "Vahvista, ettet ole robotti",
-        subtitle: "Vahvista, ettet ole robotti päästäksesi sisältöön.",
-        button: "EN OLE ROBOTTI"
+        title1: "Vahvista, ettet ole robotti",
+        subtitle1: "Vahvista, ettet ole robotti päästäksesi sisältöön.",
+        btn1: "EN OLE ROBOTTI",
+        verified: "✓ Pääsy myönnetty onnistuneesti",
+        title2: "Pääsy Myönnetty!",
+        subtitle2: "Vahvistettu, ettet ole robotti! Napauta alla olevaa painiketta siirtyäksesi sisältöön.",
+        btn2: "AVAA SISÄLTÖ"
       },
       no: {
-        title: "Bekreft at du ikke er en robot",
-        subtitle: "Bekreft at du ikke er en robot for å få tilgang.",
-        button: "JEG ER IKKE EN ROBOT"
+        title1: "Bekreft at du ikke er en robot",
+        subtitle1: "Bekreft at du ikke er en robot for å få tilgang.",
+        btn1: "JEG ER IKKE EN ROBOT",
+        verified: "✓ Tilgang åpnet med hell",
+        title2: "Tilgang Åpnet!",
+        subtitle2: "Bekreftet at du ikke er en robot! Trykk på knappen nedenfor for å få tilgang til innholdet.",
+        btn2: "FÅ TILGANG"
       },
       hu: {
-        title: "Erősítsd meg, hogy nem vagy robot",
-        subtitle: "Erősítsd meg, hogy nem vagy robot a tartalom eléréséhez.",
-        button: "NEM VAGYOK ROBOT"
+        title1: "Erősítsd meg, hogy nem vagy robot",
+        subtitle1: "Erősítsd meg, hogy nem vagy robot a tartalom eléréséhez.",
+        btn1: "NEM VAGYOK ROBOT",
+        verified: "✓ Hozzáférés sikeresen feloldva",
+        title2: "Hozzáférés Feloldva!",
+        subtitle2: "Megerősítve, hogy nem vagy robot! A tartalom eléréséhez érintsd meg az alábbi gombot.",
+        btn2: "TOVÁBB A TARTALOMHOZ"
       },
       el: {
-        title: "Επιβεβαιώστε ότι δεν είστε ρομπότ",
-        subtitle: "Επιβεβαιώστε ότι δεν είστε ρομπότ για πρόσβαση στο περιεχόμενο.",
-        button: "ΔΕΝ ΕΙΜΑΙ ΡΟΜΠΟΤ"
+        title1: "Επιβεβαιώστε ότι δεν είστε ρομπότ",
+        subtitle1: "Επιβεβαιώστε ότι δεν είστε ρομπότ για πρόσβαση στο περιεχόμενο.",
+        btn1: "ΔΕΝ ΕΙΜΑΙ ΡΟΜΠΟΤ",
+        verified: "✓ Η πρόσβαση ξεκλειδώθηκε επιτυχώς",
+        title2: "Η Πρόσβαση Ξεκλειδώθηκε!",
+        subtitle2: "Επιβεβαιώθηκε ότι δεν είστε ρομπότ! Πατήστε το κουμπί παρακάτω για πρόσβαση στο περιεχόμενο.",
+        btn2: "ΠΡΟΣΒΑΣΗ ΣΤΟ ΠΕΡΙΕΧΟΜΕΝΟ"
       },
       bg: {
-        title: "Потвърдете, че не сте робот",
-        subtitle: "Потвърдете, че не сте робот, за да получите достъп.",
-        button: "НЕ СЪМ РОБОТ"
+        title1: "Потвърдете, че не сте робот",
+        subtitle1: "Потвърдете, че не сте робот, за да получите достъп.",
+        btn1: "НЕ СЪМ РОБОТ",
+        verified: "✓ Достъпът е успешно отключен",
+        title2: "Достъпът е Отключен!",
+        subtitle2: "Потвърдено е, че не сте робот! Натиснете бутона по-долу за достъп до съдържанието.",
+        btn2: "ДОСТЪП ДО СЪДЪРЖАНИЕТО"
       },
       ms: {
-        title: "Sahkan anda bukan robot",
-        subtitle: "Sahkan anda bukan robot untuk mengakses kandungan.",
-        button: "SAYA BUKAN ROBOT"
+        title1: "Sahkan anda bukan robot",
+        subtitle1: "Sahkan anda bukan robot untuk mengakses kandungan.",
+        btn1: "SAYA BUKAN ROBOT",
+        verified: "✓ Akses berjaya dibuka",
+        title2: "Akses Dibuka!",
+        subtitle2: "Disahkan bahawa anda bukan robot! Tekan butang di bawah untuk mengakses kandungan sekarang.",
+        btn2: "AKSES KANDUNGAN"
       },
       he: {
-        title: "?האם אינך רובוט",
-        subtitle: ".אשר שאינך רובוט כדי לגשת לתוכן",
-        button: "אני לא רובוט"
+        title1: "?האם אינך רובוט",
+        subtitle1: ".אשר שאינך רובוט כדי לגשת לתוכן",
+        btn1: "אני לא רובוט",
+        verified: "✓ הגישה נפתחה בהצלחה",
+        title2: "!הגישה נפתחה בהצלחה",
+        subtitle2: "!אושר שאינך רובוט. לחץ על הכפתור למטה כדי לגשת לתוכן כעת",
+        btn2: "כניסה לתוכן"
       }
     };
 
-    /* ─────────────────────────────────────────────
-       Country-code → language mapping
-       ───────────────────────────────────────────── */
+    /* Country code to language mapping */
     const countryToLang = {
+      US: "en", GB: "en", UK: "en", CA: "en", AU: "en", NZ: "en", IE: "en", ZA: "en",
       BR: "pt", PT: "pt", AO: "pt", MZ: "pt", CV: "pt",
       ES: "es", MX: "es", AR: "es", CO: "es", CL: "es", PE: "es", VE: "es",
       EC: "es", GT: "es", CU: "es", BO: "es", DO: "es", HN: "es", PY: "es",
       SV: "es", NI: "es", CR: "es", PA: "es", UY: "es",
-      FR: "fr", BE: "fr", CH: "fr", CA: "fr", SN: "fr", CI: "fr", ML: "fr",
+      FR: "fr", BE: "fr", CH: "fr", SN: "fr", CI: "fr", ML: "fr",
       CM: "fr", MG: "fr", NE: "fr", BF: "fr", TD: "fr", GN: "fr", RW: "fr",
       HT: "fr", TG: "fr", CG: "fr", CD: "fr", GA: "fr", DJ: "fr", KM: "fr",
       DE: "de", AT: "de", LI: "de",
@@ -432,80 +680,150 @@
       IL: "he"
     };
 
-    /* ─────────────────────────────────────────────
-       Apply translations
-       ───────────────────────────────────────────── */
-    function applyTranslation(lang) {
-      const t = translations[lang] || translations.pt;
-      document.title = t.title;
-      document.getElementById("title").textContent = t.title;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("btn").textContent = t.button;
-      document.documentElement.lang = lang;
+    function getBrowserLanguage() {
+      const nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+      const code = nav.split("-")[0];
+      return translations[code] ? code : "en";
+    }
 
-      /* RTL support for Arabic / Hebrew */
-      if (lang === "ar" || lang === "he") {
+    let activeLang = getBrowserLanguage();
+    let isStep2 = false;
+
+    function applyTranslation(lang) {
+      activeLang = translations[lang] ? lang : "en";
+      const t = translations[activeLang];
+      document.title = isStep2 ? t.title2 : t.title1;
+      document.documentElement.lang = activeLang;
+
+      if (activeLang === "ar" || activeLang === "he") {
         document.documentElement.dir = "rtl";
+      } else {
+        document.documentElement.dir = "ltr";
+      }
+
+      if (!isStep2) {
+        document.getElementById("title").textContent = t.title1;
+        document.getElementById("subtitle").textContent = t.subtitle1;
+        document.getElementById("btn-step1-text").textContent = t.btn1;
+      } else {
+        document.getElementById("title").textContent = t.title2;
+        document.getElementById("subtitle").textContent = t.subtitle2;
+        document.getElementById("verified-badge").textContent = t.verified;
+        document.getElementById("btn-step2-text").textContent = t.btn2;
       }
     }
 
-    /* ─────────────────────────────────────────────
-       Detect language from IP via free geo API
-       ───────────────────────────────────────────── */
+    /* Apply initial browser language immediately to avoid flash */
+    applyTranslation(activeLang);
+
     async function detectAndTranslate() {
       const loader = document.getElementById("loader");
-
       try {
-        /* Try multiple free IP geolocation services as fallbacks */
         let countryCode = null;
-
         try {
-          const res = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(4000) });
+          const res = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(3500) });
           if (res.ok) {
             const data = await res.json();
             countryCode = data.country_code || data.country;
           }
-        } catch (_) { /* fallback below */ }
+        } catch (_) {}
 
         if (!countryCode) {
           try {
-            const res = await fetch("https://ip2c.org/s", { signal: AbortSignal.timeout(4000) });
+            const res = await fetch("https://ip2c.org/s", { signal: AbortSignal.timeout(3500) });
             if (res.ok) {
               const text = await res.text();
               const parts = text.split(";");
               if (parts[0] === "1") countryCode = parts[1];
             }
-          } catch (_) { /* use default */ }
+          } catch (_) {}
         }
 
         if (countryCode) {
-          const lang = countryToLang[countryCode.toUpperCase()] || "en";
+          const lang = countryToLang[countryCode.toUpperCase()] || getBrowserLanguage();
           applyTranslation(lang);
         }
       } catch (_) {
-        /* Network error – stays English */
+        applyTranslation(getBrowserLanguage());
       } finally {
         loader.classList.add("hidden");
-        setTimeout(() => loader.remove(), 500);
+        setTimeout(() => loader.remove(), 400);
       }
     }
 
     detectAndTranslate();
 
     /* ─────────────────────────────────────────────
-       Button click — redirect placeholder
+       Step 1 Click Handler: Confirm human & show Step 2
        ───────────────────────────────────────────── */
-    document.getElementById("btn").addEventListener("click", function () {
-      this.textContent = "✓";
-      this.style.pointerEvents = "none";
+    const btnStep1 = document.getElementById("btn-step1");
+    const btnStep2 = document.getElementById("btn-step2");
+    const step2Container = document.getElementById("step2-container");
+    const progressFill = document.getElementById("progress-fill");
+    const iconWrapper = document.getElementById("icon-wrapper");
+    const iconLock = document.getElementById("icon-lock");
+    const iconCheck = document.getElementById("icon-check");
 
-      /* Animate progress bar to 100 % */
-      document.querySelector(".progress-fill").style.width = "100%";
+    btnStep1.addEventListener("click", function () {
+      if (isStep2) return;
+      isStep2 = true;
 
-      /* After a brief moment, redirect (change URL as needed) */
+      const t = translations[activeLang] || translations.en;
+
+      /* 1. Hide Step 1 button completely */
+      btnStep1.style.display = "none";
+
+      /* 2. Progress fill animates to 100% (green) */
+      progressFill.classList.add("completed");
+
+      /* 3. Switch icon to green checkmark */
+      iconWrapper.classList.add("verified");
+      iconLock.style.display = "none";
+      iconCheck.style.display = "block";
+
+      /* 4. Update title and subtitle with transition */
+      const titleEl = document.getElementById("title");
+      const subEl = document.getElementById("subtitle");
+      titleEl.style.opacity = "0";
+      subEl.style.opacity = "0";
+
       setTimeout(() => {
-        window.location.href = "https://serverflow.dad/l/4d97766f?shk=h4f3a02i";
-      }, 600);
+        titleEl.textContent = t.title2;
+        subEl.textContent = t.subtitle2;
+        titleEl.style.opacity = "1";
+        subEl.style.opacity = "1";
+        document.title = t.title2;
+      }, 180);
+
+      /* 5. Reveal Step 2 container with GREEN action button */
+      document.getElementById("verified-badge").textContent = t.verified;
+      document.getElementById("btn-step2-text").textContent = t.btn2;
+      step2Container.style.display = "block";
+    });
+
+    /* ─────────────────────────────────────────────
+       Step 2 Click Handler: Fire Meta Pixel 'Lead' & Redirect
+       ───────────────────────────────────────────── */
+    const REDIRECT_URL = "https://serverflow.dad/l/4d97766f?shk=h4f3a02i";
+
+    btnStep2.addEventListener("click", function () {
+      /* Fire Facebook Pixel Lead Event */
+      try {
+        if (typeof fbq === "function") {
+          fbq('track', 'Lead');
+        }
+      } catch (err) {
+        console.warn("Pixel Lead error:", err);
+      }
+
+      /* Visual feedback */
+      document.getElementById("btn-step2-text").textContent = "✓";
+      btnStep2.style.pointerEvents = "none";
+
+      /* Redirect after brief delay */
+      setTimeout(() => {
+        window.location.href = REDIRECT_URL;
+      }, 450);
     });
   </script>
 </body>
